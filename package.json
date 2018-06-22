@@ -1,17 +1,14 @@
 {
   "scripts": {
-    "start": "nodemon --watch ./src --ext ts --exec \"tsc && node ./build\"",
+    "start": "nodemon --watch ./src/ --ext ts --exec \"tsc && node ./build\"",
     "build": "tsc",
     "prepack": "npm run build",
-    "pack": "npm run pack:`node -p process.platform`",
-    "pack:linux": "pkg ./build/linux/index.js --targets node10-linux-x64 --output ./dist/dotfiles-linux",
-    "pack:darwin": "pkg ./build/darwin/index.js --targets node10-macos-x64 --output ./dist/dotfiles-mac",
+    "pack": "pkg ./build/index.js --targets node10-linux-x64,node10-macos-x64 --output ./dist/dotfiles",
     "type-check": "tsc --noEmit"
   },
-  "dependencies": {
-    "@types/node": "^10.3.4"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^10.3.4",
     "nodemon": "^1.17.5",
     "pkg": "^4.3.2",
     "typescript": "^2.9.1"
