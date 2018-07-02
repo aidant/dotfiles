@@ -11,7 +11,11 @@ const onData = (stream: Stream, array: Array<Buffer>) => {
   })
 }
 
-export const run = (command: string) => new Promise((resolve, reject) => {
+type options = {
+  buffer?: boolean
+}
+
+export const run = (command: string, { buffer = false }: options = {}) => new Promise((resolve, reject) => {
   const stderr: Buffer[] = []
   const stdout: Buffer[] = []
   const shell = spawn('/bin/sh', [], { shell: false })
