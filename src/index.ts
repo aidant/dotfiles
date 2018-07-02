@@ -1,4 +1,4 @@
-import * as shell from './shell'
+import * as shell from './shell/run'
 
 const run = async () => {
   console.log(await shell.run('echo "Hello World"'))
