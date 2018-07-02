@@ -1,8 +1,9 @@
-import { Config } from '../types'
+import { Applications } from '../types'
 
-export const install: Config[] = [
+export const applications: Applications[] = [
   {
     name: 'discord/stable',
+    group: ['social'],
     command: {
       macos: ['brew cask install discord'],
       ubuntu: [
@@ -14,6 +15,7 @@ export const install: Config[] = [
   },
   {
     name: 'discord/ptb',
+    group: ['social'],
     command: {
       macos: ['brew cask install discord-ptb'],
       ubuntu: [
@@ -25,6 +27,7 @@ export const install: Config[] = [
   },
   {
     name: 'discord/canary',
+    group: ['social'],
     command: {
       macos: ['brew cask install discord-canary'],
       ubuntu: [
@@ -36,6 +39,7 @@ export const install: Config[] = [
   },
   {
     name: 'slack',
+    group: ['social'],
     command: {
       macos: ['brew cask install slack'],
       ubuntu: ['sudo snap install slack']

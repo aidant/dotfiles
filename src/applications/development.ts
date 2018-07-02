@@ -1,8 +1,9 @@
-import { Config, Symlink } from '../types'
+import { Applications } from '../types'
 
-export const install: Config[] = [
+export const applications: Applications[] = [
   {
     name: 'docker',
+    group: ['development'],
     command: {
       macos: [
         'brew install docker docker-compose',
@@ -17,6 +18,7 @@ export const install: Config[] = [
   },
   {
     name: 'node',
+    group: ['development'],
     command: {
       macos: [
         'brew install node',
@@ -31,28 +33,39 @@ export const install: Config[] = [
   },
   {
     name: 'mongodb-compass',
+    group: ['development'],
     command: {
       macos: ['brew cask install mongodb-compass']
     }
   },
   {
     name: 'iterm2',
+    group: ['development'],
     command: {
       macos: ['brew cask install iterm2']
     }
   },
   {
     name: 'vs-code',
+    group: ['development'],
     command: {
       macos: ['brew cask install visual-studio-code'],
       ubuntu: ['sudo snap install vscode']
     },
-    symlink: [
-      ['~/.vs-code', '/.vs-code']
-    ]
+    symlink: {
+      macos: [
+        ['/.vs-code', '~/.vs-code'],
+        ['/vs-code.json', '~/Library/Application\\ Support/Code/User/settings.json']
+      ],
+      ubuntu: [
+        ['/.vs-code', '~/.vs-code'],
+        ['/vs-code.json', '~/.config/Code/User/settings.json']
+      ]
+    }
   },
   {
     name: 'zsh',
+    group: ['development'],
     command: {
       macos: [
         'brew install zsh zsh-completions',
@@ -68,6 +81,7 @@ export const install: Config[] = [
   },
   {
     name: 'fira-code',
+    group: ['development'],
     command: {
       macos: [
         'brew tap caskroom/fonts',
@@ -77,20 +91,25 @@ export const install: Config[] = [
   },
   {
     name: 'ssh',
+    group: ['development'],
     command: {
       macos: ['brew install openssh']
     },
-    symlink: [
-      ['~/.ssh', '/.ssh']
-    ]
+    symlink: {
+      macos: [['/.ssh', '~/.ssh']],
+      ubuntu: [['/.ssh', '~/.ssh']]
+    }
   },
   {
     name: 'git',
+    group: ['development'],
     command: {
-      macos: ['brew install git']
+      macos: ['brew install git'],
+      ubuntu: ['sudo apt install git']
     },
-    symlink: [
-      ['~/.gitconfig', '/.gitconfig']
-    ]
+    symlink: {
+      macos: [['/.gitconfig', '~/.gitconfig']],
+      ubuntu: [['/.gitconfig', '~/.gitconfig']]
+    }
   }
 ]
