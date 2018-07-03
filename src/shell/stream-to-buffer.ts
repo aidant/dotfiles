@@ -1,6 +1,6 @@
-import { Readable } from 'stream'
+import { Stream } from 'stream'
 
-export const streamToBuffer = (stream: Readable): Promise<Buffer> => new Promise((resolve) => {
+export const streamToBuffer = (stream: Stream): Promise<Buffer> => new Promise((resolve) => {
   const buffers: Buffer[] = []
 
   stream.on('data', (data) => {
