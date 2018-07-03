@@ -1,31 +1,30 @@
 import { spawn } from 'child_process'
 import { Stream } from 'stream'
 
-const onData = (stream: Stream, array: Array<Buffer>) => {
-  stream.on('data', (data) => {
-    if (typeof data === 'string') {
-      array.push(Buffer.from(data, 'utf8'))
-    } else {
-      array.push(data)
-    }
-  })
-}
-
 type options = {
-  buffer?: boolean
+  shell?: string
 }
 
-export const run = (command: string, { buffer = false }: options = {}) => new Promise((resolve, reject) => {
-  const stderr: Buffer[] = []
-  const stdout: Buffer[] = []
-  const shell = spawn('/bin/sh', [], { shell: false })
-  shell.on('error', reject)
-  shell.on('exit', (code) => code === 0
-    ? resolve(Buffer.concat(stdout).toString())
-    : reject(Buffer.concat(stderr).toString())
-  )
-  onData(shell.stderr, stderr)
-  onData(shell.stdout, stdout)
-  shell.stdin.write(command)
-  shell.stdin.end()
-})
+type result = {
+  stdout: Stream
+  stderr: Stream
+  exit: Promise<number>
+}
+
+export const run = (
+  command: string,
+  { shell = '/bin/sh' }: options = {}
+): result => {
+  const child = spawn(shell, [], { shell: false, stdio: 'pipe' })
+  child.stdin.write(command)
+  child.stdin.end()
+  const exit: Promise<number> = new Promise((resolve, reject) => {
+    child.on('error', reject)
+    child.on('exit', resolve)
+    child.on('exit', () => {
+      child.stdout.destroy()
+      child.stderr.destroy()
+    })
+  })
+  return { stdout: child.stdout, stderr: child.stderr, exit }
+}
