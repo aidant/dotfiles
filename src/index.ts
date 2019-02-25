@@ -1,9 +1,15 @@
-import * as shell from './shell/run'
+import { Script } from './script'
+import fs from 'fs'
+import path from 'path'
 
-const run = async () => {
-  console.log(await shell.run('echo "Hello World"'))
-  console.log(await shell.run('curl -s https://google.com | grep 301'))
-}
+Script.sandbox.console = console
 
-run()
+fs.promises.readdir('src/applications')
+  .then(async (files) => {
+    for (const file of files) {
+      const module = new Script(path.join('src/applications', file))
+      await module.initialize()
+      await module.execute()
+    }
+  })
   .catch(console.error)
